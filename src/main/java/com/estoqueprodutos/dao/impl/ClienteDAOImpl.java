@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,15 +40,20 @@ public class ClienteDAOImpl implements IClienteDAO {
 
     @Override
     public Cliente save(Cliente cliente) {
-        // O SQL agora não inclui a coluna 'email'
-        String sql = "INSERT INTO Clientes (nome, limite_credito, data_cadastro) VALUES (?, ?, ?)";
+        // Ajuste para inserir também a coluna 'email' (NOT NULL) conforme o schema atual
+        String sql = "INSERT INTO Clientes (nome, email, limite_credito, data_cadastro) VALUES (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, cliente.getNome());
-            ps.setBigDecimal(2, cliente.getLimiteCredito());
-            ps.setDate(3, java.sql.Date.valueOf(cliente.getDataCadastro()));
+            String emailPrimario = (cliente.getEmails() != null && !cliente.getEmails().isEmpty())
+                    ? String.valueOf(cliente.getEmails().get(0))
+                    : ""; // evita NULL em coluna NOT NULL
+            ps.setString(2, emailPrimario);
+            ps.setBigDecimal(3, cliente.getLimiteCredito());
+            LocalDate data = cliente.getDataCadastro() != null ? cliente.getDataCadastro() : LocalDate.now();
+            ps.setDate(4, java.sql.Date.valueOf(data));
             return ps;
         }, keyHolder);
 
@@ -61,11 +67,17 @@ public class ClienteDAOImpl implements IClienteDAO {
 
     @Override
     public Cliente update(Cliente cliente) {
-        String sql = "UPDATE Clientes SET nome = ?, limite_credito = ?, data_cadastro = ? WHERE id_cliente = ?";
+        // Ajuste para atualizar também a coluna 'email' conforme o schema atual
+        String sql = "UPDATE Clientes SET nome = ?, email = ?, limite_credito = ?, data_cadastro = ? WHERE id_cliente = ?";
+        LocalDate data = cliente.getDataCadastro() != null ? cliente.getDataCadastro() : LocalDate.now();
+        String emailPrimario = (cliente.getEmails() != null && !cliente.getEmails().isEmpty())
+                ? String.valueOf(cliente.getEmails().get(0))
+                : ""; // evita NULL em coluna NOT NULL
         jdbcTemplate.update(sql,
                 cliente.getNome(),
+                emailPrimario,
                 cliente.getLimiteCredito(),
-                cliente.getDataCadastro(),
+                java.sql.Date.valueOf(data),
                 cliente.getIdCliente());
 
         // Deleta os emails/telefones antigos e insere os novos para garantir consistência
@@ -132,4 +144,3 @@ public class ClienteDAOImpl implements IClienteDAO {
         cliente.setTelefones(telefones);
     }
 }
-
