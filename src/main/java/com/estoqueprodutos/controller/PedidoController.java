@@ -36,6 +36,16 @@ public class PedidoController {
         return pedidoService.salvar(pedido);
     }
 
+    // Endpoint para ATUALIZAR um pedido existente
+    @PutMapping("/{id}")
+    public ResponseEntity<Pedido> atualizar(@PathVariable Integer id, @RequestBody Pedido pedido) {
+        if (pedidoService.buscarPorId(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        pedido.setIdPedido(id);
+        return ResponseEntity.ok(pedidoService.salvar(pedido));
+    }
+
     // Endpoint para DELETAR um pedido
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
