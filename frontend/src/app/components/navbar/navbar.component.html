@@ -1,0 +1,54 @@
+<div class="sidebar-contracted">
+  <!-- Hidden blue shape (keeping from original design) -->
+  <div class="sidebar-contracted-child">
+  </div>
+
+  <!-- Yellow indicator shape for active route -->
+  <div class="sidebar-contracted-item"
+       [ngStyle]="{
+         'top': getActiveIndicatorPosition() + 'px',
+         'display': getActiveIndicatorPosition() !== -1 ? 'block' : 'none'
+       }">
+  </div>
+
+  <!-- Home -->
+  <img class="material-symbolshome-rounded-icon nav-icon"
+       alt="Home"
+       src="assets/icons/home.svg"
+       (click)="navigateToHome()">
+
+  <!-- Clientes -->
+  <img class="mdiuser-icon nav-icon"
+       src="assets/icons/cliente.svg"
+       (click)="navigateToClientes()">
+
+  <!-- Pedidos -->
+  <img class="lets-iconsorder-fill nav-icon"
+       alt="Pedidos"
+       src="assets/icons/pedido.svg"
+       (click)="navigateToPedidos()">
+
+  <!-- Produtos -->
+  <img class="vector-icon nav-icon"
+       alt="Produtos"
+       src="assets/icons/produto.svg"
+       (click)="navigateToProdutos()">
+
+  <!-- Estoque -->
+  <img class="fluentbox-48-filled-icon nav-icon"
+       alt="Estoque"
+       src="assets/icons/Vector.svg"
+       (click)="navigateToEstoque()">
+
+  <!-- Endereços -->
+  <img class="icon-park-solidlocal-two nav-icon"
+       alt="Endereços"
+       src="assets/icons/endereco.svg"
+       (click)="navigateToEnderecos()">
+
+  <!-- Entregadoras -->
+  <img class="iconamoondelivery-fill nav-icon"
+       alt="Entregadoras"
+       src="assets/icons/entregadora.svg"
+       (click)="navigateToEntregadoras()">
+</div>

@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap');
+
+/* Global design tokens and resets */
+:root {
+  /* Color */
+  --color-gray-200: #10100e;
+  --color-mediumslateblue: #165cf9;
+  --color-whitesmoke-100: #ecf0f4;
+  --color-whitesmoke-200: #edeff4;
+  --color-lightslategray: #8c93a1;
+  --color-dimgray-100: #4a5468;
+  --color-aliceblue: #e6eaf1;
+  --color-lightskyblue: #9cc9fc;
+  --color-ghostwhite: #f6faff;
+  --color-gray-100: #101a29;
+  --color-dimgray-200: #4a5368;
+  --color-dimgray-300: rgba(74, 84, 104, 0.7);
+  --color-honeydew: #e2fde6;
+
+  /* Gap */
+  --gap-12: 12px;
+
+  /* Padding */
+  --padding-4: 4px;
+
+  /* BorderRadius */
+  --br-12: 12px;
+  --br-16: 16px;
+
+  /* Font */
+  --font-archivo: Archivo, sans-serif;
+  --font-work-sans: 'Work Sans', sans-serif;
+  --font-archivo-black: 'Archivo Black', sans-serif;
+
+  /* FontSize */
+  --font-size-16: 16px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+}
+
+html {
+  background-color: var(--color-whitesmoke-200);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-whitesmoke-200);
+}
+
+* { box-sizing: border-box; }
+
+/* Garantir que o app-root também use o fundo correto */
+app-root {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: transparent;
+}
