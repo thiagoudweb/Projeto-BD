@@ -57,11 +57,11 @@ public class EntregadoraDAOImpl implements IEntregadoraDAO {
     public Entregadora update(Entregadora entregadora) {
         String sql = "UPDATE Entregadoras SET nome = ?, nome_fantasia = ?, cnpj = ?, email = ? WHERE id_entregadora = ?";
         jdbcTemplate.update(sql,
-                entregadora.getNome(),
-                entregadora.getNomeFantasia(),
-                entregadora.getCnpj(),
-                entregadora.getEmail(),
-                entregadora.getId());
+            entregadora.getNome(),
+            entregadora.getNomeFantasia(),
+            entregadora.getCnpj(),
+            entregadora.getEmail(),
+            entregadora.getId());
         return entregadora;
     }
 

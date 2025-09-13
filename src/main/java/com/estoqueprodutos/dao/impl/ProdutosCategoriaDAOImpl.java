@@ -33,8 +33,8 @@ public class ProdutosCategoriaDAOImpl implements IProdutosCategoriaDAO {
     public ProdutosCategoria save(ProdutosCategoria produtosCategoria) {
         String sql = "INSERT INTO Produtos_Categorias (id_produto, id_categoria) VALUES (?, ?)";
         jdbcTemplate.update(sql,
-                produtosCategoria.getIdProduto().getIdProduto(),
-                produtosCategoria.getIdCategoria().getId()
+            produtosCategoria.getIdProduto().getIdProduto(),
+            produtosCategoria.getIdCategoria().getId()
         );
         return produtosCategoria;
     }
@@ -43,10 +43,10 @@ public class ProdutosCategoriaDAOImpl implements IProdutosCategoriaDAO {
     public ProdutosCategoria update(ProdutosCategoria produtosCategoria) {
         String sql = "UPDATE Produtos_Categorias SET id_produto = ?, id_categoria = ? WHERE id_produto = ? AND id_categoria = ?";
         jdbcTemplate.update(sql,
-                produtosCategoria.getIdProduto().getIdProduto(),
-                produtosCategoria.getIdCategoria().getId(),
-                produtosCategoria.getId().getIdProduto(),
-                produtosCategoria.getId().getIdCategoria()
+            produtosCategoria.getIdProduto().getIdProduto(),
+            produtosCategoria.getIdCategoria().getId(),
+            produtosCategoria.getId().getIdProduto(),
+            produtosCategoria.getId().getIdCategoria()
         );
         return produtosCategoria;
     }

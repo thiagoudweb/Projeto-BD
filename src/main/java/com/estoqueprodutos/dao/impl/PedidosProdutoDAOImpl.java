@@ -36,10 +36,10 @@ public class PedidosProdutoDAOImpl implements IPedidosProdutoDAO {
     public PedidosProduto save(PedidosProduto pedidosProduto) {
         String sql = "INSERT INTO Pedidos_Produtos (id_pedido, id_produto, quantidade, preco_total_produtos) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql,
-                pedidosProduto.getIdPedido().getIdPedido(),
-                pedidosProduto.getIdProduto().getIdProduto(),
-                pedidosProduto.getQuantidade(),
-                pedidosProduto.getPrecoTotalProdutos() != null ? pedidosProduto.getPrecoTotalProdutos() : BigDecimal.ZERO
+            pedidosProduto.getIdPedido().getIdPedido(),
+            pedidosProduto.getIdProduto().getIdProduto(),
+            pedidosProduto.getQuantidade(),
+            pedidosProduto.getPrecoTotalProdutos() != null ? pedidosProduto.getPrecoTotalProdutos() : BigDecimal.ZERO
         );
         return pedidosProduto;
     }
@@ -48,10 +48,10 @@ public class PedidosProdutoDAOImpl implements IPedidosProdutoDAO {
     public PedidosProduto update(PedidosProduto pedidosProduto) {
         String sql = "UPDATE Pedidos_Produtos SET quantidade = ?, preco_total_produtos = ? WHERE id_pedido = ? AND id_produto = ?";
         jdbcTemplate.update(sql,
-                pedidosProduto.getQuantidade(),
-                pedidosProduto.getPrecoTotalProdutos(),
-                pedidosProduto.getIdPedido().getIdPedido(),
-                pedidosProduto.getIdProduto().getIdProduto()
+            pedidosProduto.getQuantidade(),
+            pedidosProduto.getPrecoTotalProdutos(),
+            pedidosProduto.getIdPedido().getIdPedido(),
+            pedidosProduto.getIdProduto().getIdProduto()
         );
         return pedidosProduto;
     }

@@ -55,11 +55,11 @@ public class EstoqueDAOImpl implements IEstoqueDAO {
     public Estoque update(Estoque estoque) {
         String sql = "UPDATE Estoques SET id_produto = ?, id_armazem = ?, codigo = ?, quantidade_existente = ? WHERE id_estoque = ?";
         jdbcTemplate.update(sql,
-                estoque.getIdProduto().getIdProduto(),
-                estoque.getIdArmazem().getId(),
-                estoque.getCodigo(),
-                estoque.getQuantidadeExistente(),
-                estoque.getId());
+            estoque.getIdProduto().getIdProduto(),
+            estoque.getIdArmazem().getId(),
+            estoque.getCodigo(),
+            estoque.getQuantidadeExistente(),
+            estoque.getId());
         return estoque;
     }
 

@@ -33,8 +33,8 @@ public class EntregadorasTelefoneDAOImpl implements IEntregadorasTelefoneDAO {
     public EntregadorasTelefone save(EntregadorasTelefone entregadorasTelefone) {
         String sql = "INSERT INTO Entregadoras_Telefones (id_entregadora, telefone) VALUES (?, ?)";
         jdbcTemplate.update(sql,
-                entregadorasTelefone.getIdEntregadora().getId(),
-                entregadorasTelefone.getId().getTelefone());
+            entregadorasTelefone.getIdEntregadora().getId(),
+            entregadorasTelefone.getId().getTelefone());
         return entregadorasTelefone;
     }
 
@@ -42,9 +42,9 @@ public class EntregadorasTelefoneDAOImpl implements IEntregadorasTelefoneDAO {
     public EntregadorasTelefone update(EntregadorasTelefone entregadorasTelefone) {
         String sql = "UPDATE Entregadoras_Telefones SET telefone = ? WHERE id_entregadora = ? AND telefone = ?";
         jdbcTemplate.update(sql,
-                entregadorasTelefone.getId().getTelefone(),
-                entregadorasTelefone.getIdEntregadora().getId(),
-                entregadorasTelefone.getId().getTelefone());
+            entregadorasTelefone.getId().getTelefone(),
+            entregadorasTelefone.getIdEntregadora().getId(),
+            entregadorasTelefone.getId().getTelefone());
         return entregadorasTelefone;
     }
 
