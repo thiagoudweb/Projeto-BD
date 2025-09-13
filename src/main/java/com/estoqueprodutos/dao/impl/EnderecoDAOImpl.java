@@ -69,19 +69,19 @@ public class EnderecoDAOImpl implements IEnderecoDAO {
     public Endereco update(Endereco endereco) {
         String sql = "UPDATE Enderecos SET pais = ?, estado = ?, cidade = ?, bairro = ?, rua = ?, numero = ?, cep = ?, complemento = ?, id_cliente = ?, id_entregadora = ?, id_fornecedor = ?, id_armazem = ? WHERE id_endereco = ?";
         jdbcTemplate.update(sql,
-                endereco.getPais(),
-                endereco.getEstado(),
-                endereco.getCidade(),
-                endereco.getBairro(),
-                endereco.getRua(),
-                endereco.getNumero(),
-                endereco.getCep(),
-                endereco.getComplemento(),
-                endereco.getIdCliente() != null ? endereco.getIdCliente().getIdCliente() : null,
-                endereco.getIdEntregadora() != null ? endereco.getIdEntregadora().getId() : null,
-                endereco.getIdFornecedor() != null ? endereco.getIdFornecedor().getId() : null,
-                endereco.getIdArmazem() != null ? endereco.getIdArmazem().getId() : null,
-                endereco.getId());
+            endereco.getPais(),
+            endereco.getEstado(),
+            endereco.getCidade(),
+            endereco.getBairro(),
+            endereco.getRua(),
+            endereco.getNumero(),
+            endereco.getCep(),
+            endereco.getComplemento(),
+            endereco.getIdCliente() != null ? endereco.getIdCliente().getIdCliente() : null,
+            endereco.getIdEntregadora() != null ? endereco.getIdEntregadora().getId() : null,
+            endereco.getIdFornecedor() != null ? endereco.getIdFornecedor().getId() : null,
+            endereco.getIdArmazem() != null ? endereco.getIdArmazem().getId() : null,
+            endereco.getId());
         return endereco;
     }
 

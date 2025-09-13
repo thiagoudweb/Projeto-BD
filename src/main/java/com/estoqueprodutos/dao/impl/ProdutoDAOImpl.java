@@ -4,7 +4,6 @@ import com.estoqueprodutos.dao.interfaces.IProdutoDAO;
 import com.estoqueprodutos.dao.interfaces.IProdutoIdiomaDAO;
 import com.estoqueprodutos.model.Produto;
 import com.estoqueprodutos.model.ProdutoIdioma;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +22,6 @@ public class ProdutoDAOImpl implements IProdutoDAO {
     private final JdbcTemplate jdbcTemplate;
     private final IProdutoIdiomaDAO produtoIdiomaDAO;
 
-    @Autowired
     public ProdutoDAOImpl(JdbcTemplate jdbcTemplate, IProdutoIdiomaDAO produtoIdiomaDAO) {
         this.jdbcTemplate = jdbcTemplate;
         this.produtoIdiomaDAO = produtoIdiomaDAO;
