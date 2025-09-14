@@ -9,7 +9,7 @@
   --color-mediumslateblue: #165cf9;
   --color-whitesmoke-100: #ecf0f4;
   --color-whitesmoke-200: #edeff4;
-  --color-lightslategray: #8c93a1;
+  --color-lightslategray: #d0d1d5;
   --color-dimgray-100: #4a5468;
   --color-aliceblue: #e6eaf1;
   --color-lightskyblue: #9cc9fc;
@@ -58,4 +58,14 @@ app-root {
   width: 100%;
   min-height: 100vh;
   background-color: transparent;
+}
+
+html, body {
+  background-color: var(--color-whitesmoke-200) !important; /* enforce design */
+  color-scheme: light;
+}
+
+/* Fallback in case some user-agent applies light-dark */
+@media (prefers-color-scheme: dark) {
+  html, body { background-color: var(--color-whitesmoke-200) !important; }
 }

@@ -48,7 +48,7 @@ public class Endereco {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_fornecedor")
-    private Fornecedore idFornecedor;
+    private Fornecedor idFornecedor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_armazem")

@@ -55,6 +55,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/entregadoras']);
   }
 
+  navigateToFornecedores() {
+    this.router.navigate(['/fornecedores']);
+  }
+
+  navigateToFornecedorDetails() {
+    this.router.navigate(['/fornecedor-details']);
+  }
+
   isActive(route: string): boolean {
     return this.currentRoute === route;
   }
@@ -63,12 +71,13 @@ export class NavbarComponent implements OnInit {
   getActiveIndicatorPosition(): number {
     // 1. Mapeia a rota para um índice (0 para o primeiro ícone, 1 para o segundo, etc.)
     const pathToIndexMap: { [key: string]: number } = {
+      '/marketplace': 0,
       '/': 0,
       '/clientes': 1,
       '/pedidos': 2,
       '/produtos': 3,
-      '/estoque': 4,
-      '/enderecos': 5,
+      '/fornecedores': 4,
+      '/fornecedor-details': 5,
       '/entregadoras': 6,
     };
 

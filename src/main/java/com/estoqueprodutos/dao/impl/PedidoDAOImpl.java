@@ -2,7 +2,9 @@ package com.estoqueprodutos.dao.impl;
 
 import com.estoqueprodutos.dao.interfaces.IClienteDAO;
 import com.estoqueprodutos.dao.interfaces.IPedidoDAO;
+import com.estoqueprodutos.model.Cliente;
 import com.estoqueprodutos.model.Pedido;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,6 +25,7 @@ public class PedidoDAOImpl implements IPedidoDAO {
     private final IClienteDAO clienteDAO; // Para buscar o objeto Cliente completo
     private final RowMapper<Pedido> rowMapper;
 
+    @Autowired
     public PedidoDAOImpl(JdbcTemplate jdbcTemplate, IClienteDAO clienteDAO) {
         this.jdbcTemplate = jdbcTemplate;
         this.clienteDAO = clienteDAO;
@@ -78,7 +81,7 @@ public class PedidoDAOImpl implements IPedidoDAO {
     public Optional<Pedido> findById(Integer id) {
         String sql = "SELECT * FROM Pedidos WHERE id_pedido = ?";
         try {
-            Pedido pedido = jdbcTemplate.queryForObject(sql, rowMapper, new Object[]{id});
+            Pedido pedido = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
             return Optional.ofNullable(pedido);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -100,6 +103,6 @@ public class PedidoDAOImpl implements IPedidoDAO {
     @Override
     public List<Pedido> findByClienteId(Integer clienteId) {
         String sql = "SELECT * FROM Pedidos WHERE id_cliente = ?";
-        return jdbcTemplate.query(sql, rowMapper, new Object[]{clienteId});
+        return jdbcTemplate.query(sql, new Object[]{clienteId}, rowMapper);
     }
 }

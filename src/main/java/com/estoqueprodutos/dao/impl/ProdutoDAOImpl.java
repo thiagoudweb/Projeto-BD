@@ -4,6 +4,7 @@ import com.estoqueprodutos.dao.interfaces.IProdutoDAO;
 import com.estoqueprodutos.dao.interfaces.IProdutoIdiomaDAO;
 import com.estoqueprodutos.model.Produto;
 import com.estoqueprodutos.model.ProdutoIdioma;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ public class ProdutoDAOImpl implements IProdutoDAO {
     private final JdbcTemplate jdbcTemplate;
     private final IProdutoIdiomaDAO produtoIdiomaDAO;
 
+    @Autowired
     public ProdutoDAOImpl(JdbcTemplate jdbcTemplate, IProdutoIdiomaDAO produtoIdiomaDAO) {
         this.jdbcTemplate = jdbcTemplate;
         this.produtoIdiomaDAO = produtoIdiomaDAO;
@@ -73,9 +76,6 @@ public class ProdutoDAOImpl implements IProdutoDAO {
 
     @Override
     public Produto update(Produto produto) {
-        if (produto.getIdProduto() == null) {
-            throw new IllegalArgumentException("ID deve ser not null");
-        }
         String sql = "UPDATE Produtos SET data_garantia = ?, status = ?, preco_produto = ?, preco_venda_minimo = ? WHERE id_produto = ?";
         jdbcTemplate.update(sql,
                 produto.getDataGarantia() != null ? java.sql.Date.valueOf(produto.getDataGarantia()) : null,
@@ -109,7 +109,7 @@ public class ProdutoDAOImpl implements IProdutoDAO {
     public Optional<Produto> findById(Integer id) {
         String sql = "SELECT * FROM Produtos WHERE id_produto = ?";
         try {
-            Produto produto = jdbcTemplate.queryForObject(sql, rowMapper, new Object[]{id});
+            Produto produto = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
             if (produto != null) {
                 // Carregar idiomas (sem setar back-reference para evitar ciclos no JSON)
                 List<ProdutoIdioma> idiomas = produtoIdiomaDAO.findByProdutoId(id);

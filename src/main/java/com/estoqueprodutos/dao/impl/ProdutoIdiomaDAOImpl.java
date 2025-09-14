@@ -2,6 +2,7 @@ package com.estoqueprodutos.dao.impl;
 
 import com.estoqueprodutos.dao.interfaces.IProdutoIdiomaDAO;
 import com.estoqueprodutos.model.ProdutoIdioma;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,6 +16,7 @@ public class ProdutoIdiomaDAOImpl implements IProdutoIdiomaDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public ProdutoIdiomaDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -76,7 +78,7 @@ public class ProdutoIdiomaDAOImpl implements IProdutoIdiomaDAO {
     public Optional<ProdutoIdioma> findById(Integer id) {
         String sql = "SELECT * FROM Produtos_Idiomas WHERE id = ?";
         try {
-            ProdutoIdioma produtoIdioma = jdbcTemplate.queryForObject(sql, rowMapper, new Object[]{id});
+            ProdutoIdioma produtoIdioma = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
             return Optional.ofNullable(produtoIdioma);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -92,6 +94,6 @@ public class ProdutoIdiomaDAOImpl implements IProdutoIdiomaDAO {
     @Override
     public List<ProdutoIdioma> findByProdutoId(Integer produtoId) {
         String sql = "SELECT * FROM Produtos_Idiomas WHERE id_produto = ?";
-        return jdbcTemplate.query(sql, rowMapper, new Object[]{produtoId});
+        return jdbcTemplate.query(sql, new Object[]{produtoId}, rowMapper);
     }
 }

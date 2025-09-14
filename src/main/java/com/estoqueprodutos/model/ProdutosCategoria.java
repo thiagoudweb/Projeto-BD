@@ -12,8 +12,6 @@ public class ProdutosCategoria {
     @EmbeddedId
     private ProdutosCategoriaId id;
 
-    //aaaaaaaaa
-
     @MapsId("idProduto")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_produto", nullable = false)
