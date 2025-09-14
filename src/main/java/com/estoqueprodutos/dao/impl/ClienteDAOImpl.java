@@ -2,6 +2,7 @@ package com.estoqueprodutos.dao.impl;
 
 import com.estoqueprodutos.dao.interfaces.IClienteDAO;
 import com.estoqueprodutos.model.Cliente;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,6 +22,7 @@ public class ClienteDAOImpl implements IClienteDAO {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public ClienteDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -98,7 +100,7 @@ public class ClienteDAOImpl implements IClienteDAO {
     public Optional<Cliente> findById(Integer id) {
         String sql = "SELECT * FROM Clientes WHERE id_cliente = ?";
         try {
-            Cliente cliente = jdbcTemplate.queryForObject(sql, rowMapper, new Object[]{id});
+            Cliente cliente = jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
             if (cliente != null) {
                 // Após encontrar o cliente, carregamos suas listas
                 carregarEmailsETelefones(cliente);

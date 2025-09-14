@@ -1,0 +1,115 @@
+<div class="desktop-3">
+  <div class="frame-group">
+    <div class="clientes-parent">
+      <div class="clientes2">Fornecedores</div>
+      <div class="buttonprimary" (click)="showCreateForm()">
+        <div class="buttoncontent">
+          <div class="left-icon">+</div>
+          <div class="label">adicionar fornecedor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <div class="form-header">
+          <h3>{{ editingFornecedor ? 'Editar Fornecedor' : 'Novo Fornecedor' }}</h3>
+          <button class="close-btn" (click)="cancelForm()">×</button>
+        </div>
+        <form (ngSubmit)="onSubmit()" #fornecedorForm="ngForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome *</label>
+              <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required placeholder="Nome do fornecedor">
+            </div>
+            <div class="form-group">
+              <label for="pais">País *</label>
+              <input type="text" id="pais" name="pais" [(ngModel)]="formData.pais" required placeholder="País do fornecedor">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tipo">Tipo *</label>
+            <select id="tipo" name="tipo" [(ngModel)]="formData.tipo" required (change)="onTipoChange()">
+              <option value="F">Pessoa Física</option>
+              <option value="J">Pessoa Jurídica</option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="formData.tipo === 'F'">
+            <label for="cpf">CPF *</label>
+            <input type="text" id="cpf" name="cpf" [(ngModel)]="formData.cpf" placeholder="000.000.000-00">
+          </div>
+
+          <div class="form-group" *ngIf="formData.tipo === 'J'">
+            <label for="cnpj">CNPJ *</label>
+            <input type="text" id="cnpj" name="cnpj" [(ngModel)]="formData.cnpj" placeholder="00.000.000/0000-00">
+          </div>
+
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancelForm()">Cancelar</button>
+            <button type="submit" class="btn-submit" [disabled]="!isFormValid()">
+              {{ editingFornecedor ? 'Atualizar Fornecedor' : 'Criar Fornecedor' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="frame-container">
+      <div class="search-bar" role="search">
+        <img alt="Pesquisar" src="assets/icons/search.svg" />
+        <input type="text" placeholder="Pesquisar fornecedores..." />
+      </div>
+      <div class="table-wrapper">
+        <div class="id-parent">
+          <div class="id">ID</div>
+          <div class="nome">Nome</div>
+          <div class="tipo">Tipo</div>
+          <div class="documento">Documento</div>
+          <div class="pais">País</div>
+          <div class="acoes">Ações</div>
+        </div>
+
+        <div *ngIf="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Carregando fornecedores...</p>
+        </div>
+
+        <div *ngIf="error && !loading" class="error-state">
+          <p>{{ error }}</p>
+          <button class="btn-retry" (click)="fetchFornecedores()">Tentar Novamente</button>
+        </div>
+
+        <div *ngIf="!loading && !error && fornecedores.length === 0" class="empty-state">
+          <p>Nenhum fornecedor encontrado.</p>
+          <button class="btn-create" (click)="showCreateForm()">Criar Primeiro Fornecedor</button>
+        </div>
+
+        <div *ngFor="let fornecedor of fornecedores; trackBy: trackByFornecedor" class="table-row">
+          <div class="cell id-cell">{{ fornecedor.id }}</div>
+          <div class="cell nome-cell">{{ fornecedor.nome }}</div>
+          <div class="cell tipo-cell">
+            <span class="tipo-badge" [class.pessoa-fisica]="fornecedor.tipo === 'F'" [class.pessoa-juridica]="fornecedor.tipo === 'J'">
+              {{ fornecedor.tipo === 'F' ? 'Pessoa Física' : 'Pessoa Jurídica' }}
+            </span>
+          </div>
+          <div class="cell documento-cell">
+            {{ fornecedor.tipo === 'F' ? fornecedor.cpf : fornecedor.cnpj }}
+          </div>
+          <div class="cell pais-cell">{{ fornecedor.pais }}</div>
+          <div class="cell acoes-cell">
+            <button class="btn-edit" (click)="editFornecedor(fornecedor)" title="Editar fornecedor">
+              <img alt="Editar" src="assets/icons/edit.svg" />
+            </button>
+            <button class="btn-delete" (click)="deleteFornecedor(fornecedor)" title="Excluir fornecedor">
+              <img alt="Excluir" src="assets/icons/delete.svg" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

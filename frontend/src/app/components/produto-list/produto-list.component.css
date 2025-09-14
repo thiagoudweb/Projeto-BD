@@ -79,6 +79,7 @@
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
+  backdrop-filter: blur(4px);
 }
 
 .form-container {

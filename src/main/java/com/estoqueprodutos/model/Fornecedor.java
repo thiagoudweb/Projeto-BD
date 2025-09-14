@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "Fornecedores")
-public class Fornecedore {
+public class Fornecedor {
     @Id
     @Column(name = "id_fornecedor", nullable = false)
     private Integer id;

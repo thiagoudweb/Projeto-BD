@@ -33,4 +33,5 @@ public class Produto {
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProdutoIdioma> idiomas = new ArrayList<>();
+
 }

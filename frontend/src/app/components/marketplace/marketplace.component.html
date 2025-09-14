@@ -1,0 +1,119 @@
+<div class="marketplace">
+  <!-- Header com título e botão carrinho -->
+  <div class="marketplace-inner">
+    <div class="marketplace-parent">
+      <b class="marketplace2">Marketplace</b>
+      <div class="buttonprimary" (click)="toggleCarrinho()">
+        <div class="buttoncontent">
+          <div class="left-icon"></div>
+          <img class="tdesigncart-filled-icon" src="assets/icons/cart.svg" alt="">
+          <div class="label">Carrinho ({{ contadorItens }})</div>
+          <div class="left-icon"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search bar -->
+  <div class="icon-parent">
+    <img class="icon" src="assets/icons/search.svg" alt="">
+    <div class="buscar-atendimento">Pesquisar</div>
+  </div>
+
+  <!-- Grid de produtos -->
+  <div class="frame-parent">
+    <div class="marketplace-parent" *ngFor="let row of getProductRows()">
+      <div class="product" *ngFor="let produto of row">
+        <div class="palit-geforce-rtx-5090-graphic-wrapper" [class.desabilitado]="isProdutoIndisponivel(produto)">
+          <img class="palit-geforce-rtx-5090-graphic-icon"
+               src="assets/products/palit-geforce-rtx-5090-graphics-card.png"
+               alt="{{ obterNomeProduto(produto) }}">
+        </div>
+        <b class="placa-de-vdeo">{{ obterNomeProduto(produto) }}</b>
+        <b class="r-300000">R$ {{ produto.precoProduto.toFixed(2) }}</b>
+        <div class="marketplace-placa-de-vdeo">{{ obterDescricaoProduto(produto) }}</div>
+        <div class="frame-group" [class.disabled]="isProdutoIndisponivel(produto)">
+          <div class="wrapper" (click)="!isProdutoIndisponivel(produto) && diminuirQuantidade(produto.idProduto!)">
+            <div class="div">-</div>
+          </div>
+          <div class="container">
+            <div class="marketplace-div">{{ quantidades[produto.idProduto!] || 1 }}</div>
+          </div>
+          <div class="wrapper" (click)="!isProdutoIndisponivel(produto) && aumentarQuantidade(produto.idProduto!)">
+            <div class="div">+</div>
+          </div>
+        </div>
+        <div class="adicionar-wrapper"
+             [class.indisponivel]="isProdutoIndisponivel(produto)"
+             [attr.aria-disabled]="isProdutoIndisponivel(produto)"
+             (click)="!isProdutoIndisponivel(produto) && adicionarAoCarrinho(produto)">
+          <b class="marketplace-div">
+            {{ isProdutoIndisponivel(produto) ? 'Indisponível' : 'Adicionar' }}
+          </b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensagens -->
+  <div class="mensagens" *ngIf="mensagemSucesso || mensagemErro">
+    <div class="alert alert-success" *ngIf="mensagemSucesso">{{ mensagemSucesso }}</div>
+    <div class="alert alert-error" *ngIf="mensagemErro">{{ mensagemErro }}</div>
+  </div>
+
+  <!-- Overlay do carrinho -->
+  <div class="carrinho-overlay" *ngIf="mostrarCarrinho" (click)="fecharCarrinho()">
+    <div class="carrinho-popup" (click)="$event.stopPropagation()">
+      <div class="carrinho-header">
+        <h2> Seu Carrinho</h2>
+        <button class="btn-fechar" (click)="fecharCarrinho()">✕</button>
+      </div>
+
+      <div class="carrinho-conteudo">
+        <div class="carrinho-itens" *ngIf="carrinho.length > 0; else carrinhoVazio">
+          <div class="carrinho-item" *ngFor="let item of carrinho">
+            <div class="item-info">
+              <h4>{{ obterNomeProduto(item.produto) }}</h4>
+              <p class="item-preco">R$ {{ item.produto.precoProduto.toFixed(2) }} cada</p>
+            </div>
+
+            <div class="item-controles">
+              <div class="quantidade-controle">
+                <button class="btn-quantidade" (click)="atualizarQuantidadeCarrinho(item.produto.idProduto!, item.quantidade - 1)">-</button>
+                <span class="quantidade">{{ item.quantidade }}</span>
+                <button class="btn-quantidade" (click)="atualizarQuantidadeCarrinho(item.produto.idProduto!, item.quantidade + 1)">+</button>
+              </div>
+
+              <div class="item-total">R$ {{ (item.produto.precoProduto * item.quantidade).toFixed(2) }}</div>
+
+              <button class="btn-remover" (click)="removerDoCarrinho(item.produto.idProduto!)" title="Remover item">🗑️</button>
+            </div>
+          </div>
+
+          <div class="carrinho-total">
+            <strong>Total: R$ {{ calcularTotal().toFixed(2) }}</strong>
+          </div>
+
+          <div class="finalizacao-compra">
+            <div class="input-group">
+              <label for="idCliente">ID do Cliente:</label>
+              <input type="number" id="idCliente" [(ngModel)]="idCliente" placeholder="Digite o ID do cliente" class="input-cliente" required>
+            </div>
+
+            <button class="btn-finalizar" (click)="finalizarCompra()" [disabled]="!idCliente || carregandoCompra" [class.loading]="carregandoCompra">
+              <span *ngIf="!carregandoCompra"> Finalizar Compra</span>
+              <span *ngIf="carregandoCompra"> Processando...</span>
+            </button>
+          </div>
+        </div>
+
+        <ng-template #carrinhoVazio>
+          <div class="carrinho-vazio">
+            <p> Seu carrinho está vazio</p>
+            <p>Adicione alguns produtos para continuar!</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
