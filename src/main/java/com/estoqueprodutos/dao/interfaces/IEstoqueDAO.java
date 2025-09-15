@@ -10,4 +10,5 @@ public interface IEstoqueDAO {
     void deleteById(Integer id);
     Optional<Estoque> findById(Integer id);
     List<Estoque> findAll();
+    List<Estoque> findByProdutoId(Integer idProduto);
 }

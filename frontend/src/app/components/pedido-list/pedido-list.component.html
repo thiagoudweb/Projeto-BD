@@ -57,6 +57,37 @@
             </div>
             <div class="form-group"></div>
           </div>
+
+          <!-- Seção de Produtos -->
+          <div class="form-section">
+            <h4>Produtos do Pedido</h4>
+
+            <!-- Adicionar novo produto -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="idProduto">ID do Produto</label>
+                <input type="number" id="idProduto" [(ngModel)]="novoProduto.idProduto" name="idProduto" placeholder="Digite o ID do produto">
+              </div>
+              <div class="form-group">
+                <label for="quantidade">Quantidade</label>
+                <input type="number" id="quantidade" [(ngModel)]="novoProduto.quantidade" name="quantidade" min="1" placeholder="1">
+              </div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="button" class="btn-add-produto" (click)="adicionarProduto()">Adicionar Produto</button>
+              </div>
+            </div>
+
+            <!-- Lista de produtos adicionados -->
+            <div *ngIf="formData.produtos.length > 0" class="produtos-lista">
+              <h5>Produtos Adicionados:</h5>
+              <div class="produto-item" *ngFor="let produto of formData.produtos; let i = index">
+                <span>Produto ID: {{produto.idProduto}} - Quantidade: {{produto.quantidade}}</span>
+                <button type="button" class="btn-remove" (click)="removerProduto(i)">Remover</button>
+              </div>
+            </div>
+          </div>
+
           <div *ngIf="error" class="error-message">{{ error }}</div>
           <div class="form-actions">
             <button type="button" class="btn-cancel" (click)="showForm = false">Cancelar</button>

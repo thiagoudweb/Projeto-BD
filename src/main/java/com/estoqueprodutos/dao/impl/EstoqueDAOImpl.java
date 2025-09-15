@@ -28,6 +28,11 @@ public class EstoqueDAOImpl implements IEstoqueDAO {
         estoque.setId(rs.getInt("id_estoque"));
         estoque.setCodigo(rs.getString("codigo"));
         estoque.setQuantidadeExistente(rs.getInt("quantidade_existente"));
+
+        // Set the foreign key IDs using the helper methods
+        estoque.setIdProdutoId(rs.getInt("id_produto"));
+        estoque.setIdArmazemId(rs.getInt("id_armazem"));
+
         return estoque;
     };
 
@@ -84,5 +89,11 @@ public class EstoqueDAOImpl implements IEstoqueDAO {
     public List<Estoque> findAll() {
         String sql = "SELECT * FROM Estoques";
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    @Override
+    public List<Estoque> findByProdutoId(Integer idProduto) {
+        String sql = "SELECT * FROM Estoques WHERE id_produto = ? ORDER BY quantidade_existente DESC";
+        return jdbcTemplate.query(sql, rowMapper, idProduto);
     }
 }

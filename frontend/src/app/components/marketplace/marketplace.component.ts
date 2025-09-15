@@ -120,7 +120,7 @@ export class MarketplaceComponent implements OnInit {
 
     this.marketplaceService.processarCompra(pedido).subscribe({
       next: (response) => {
-        this.mostrarMensagemSucesso('Compra realizada com sucesso!');
+        this.mostrarMensagemSucesso('Compra realizada com sucesso! Estoque atualizado automaticamente.');
         this.marketplaceService.limparCarrinho();
         this.idCliente = null;
         this.fecharCarrinho();
@@ -128,7 +128,27 @@ export class MarketplaceComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erro ao processar compra:', error);
-        this.mostrarMensagemErro('Erro ao processar compra. Verifique os dados e tente novamente.');
+
+        // Tratar erros específicos de estoque
+        let mensagemErro = 'Erro ao processar compra. Verifique os dados e tente novamente.';
+
+        if (error.error && typeof error.error === 'string') {
+          const errorMessage = error.error.toLowerCase();
+
+          if (errorMessage.includes('estoque insuficiente')) {
+            mensagemErro = 'Estoque insuficiente para um ou mais produtos no carrinho. ' + error.error;
+          } else if (errorMessage.includes('produto') && errorMessage.includes('não encontrado')) {
+            mensagemErro = 'Um ou mais produtos não foram encontrados. ' + error.error;
+          } else if (errorMessage.includes('cliente') && errorMessage.includes('não encontrado')) {
+            mensagemErro = 'Cliente não encontrado. Verifique o ID do cliente.';
+          } else {
+            mensagemErro = error.error;
+          }
+        } else if (error.message) {
+          mensagemErro = error.message;
+        }
+
+        this.mostrarMensagemErro(mensagemErro);
         this.carregandoCompra = false;
       }
     });

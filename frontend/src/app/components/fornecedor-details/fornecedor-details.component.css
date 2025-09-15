@@ -96,7 +96,7 @@
   font-size: 16px;
   letter-spacing: 0.04em;
   font-weight: 600;
-  
+
   gap: 10px;
 }
 
@@ -127,7 +127,7 @@
 }
 
 .btn-success {
-  background-color: #28a745;
+  background-color: #165CF9;
   color: var(--color-ghostwhite);
 }
 
@@ -167,7 +167,7 @@
   width: 100%;
   border-radius: 32px;
   background-color: var(--color-ghostwhite);
-  padding: 24px;
+  padding:4px 24px 24px 24px;
   box-sizing: border-box;
   margin-bottom: 20px;
 }

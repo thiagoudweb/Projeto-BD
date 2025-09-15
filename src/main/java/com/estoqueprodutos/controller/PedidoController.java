@@ -16,13 +16,13 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    // Endpoint para LISTAR todos os pedidos
+    // Endpoint para LISTAR todos os pedidos (agora com IDs dos produtos incluídos)
     @GetMapping
     public List<Pedido> listarTodos() {
         return pedidoService.listarTodos();
     }
 
-    // Endpoint para BUSCAR um pedido por ID
+    // Endpoint para BUSCAR um pedido por ID (agora com IDs dos produtos incluídos)
     @GetMapping("/{id}")
     public ResponseEntity<Pedido> buscarPorId(@PathVariable Integer id) {
         return pedidoService.buscarPorId(id)

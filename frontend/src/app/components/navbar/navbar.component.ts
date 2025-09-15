@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToPedidos() {
-    this.router.navigate(['/pedidos']);
+    this.router.navigate(['/pedidos-produtos']);
   }
 
   navigateToProdutos() {
@@ -74,11 +74,11 @@ export class NavbarComponent implements OnInit {
       '/marketplace': 0,
       '/': 0,
       '/clientes': 1,
-      '/pedidos': 2,
+      '/pedidos-produtos': 2,
       '/produtos': 3,
       '/fornecedores': 4,
       '/fornecedor-details': 5,
-      '/entregadoras': 6,
+      '/estoque': 6,
     };
 
     // Pega a rota base, como no seu código original

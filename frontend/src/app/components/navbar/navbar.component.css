@@ -27,12 +27,17 @@
   cursor: pointer;
   position: relative; /* Garante que o ícone fique sobre o indicador */
   z-index: 10;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
 }
 
 .nav-icon:hover {
   opacity: 0.8;
   transform: scale(1.1);
+}
+
+/* Estilo para o ícone ativo - aplica a cor #165CF9 */
+.nav-icon.active {
+  filter: brightness(0) saturate(100%) invert(30%) sepia(85%) saturate(4000%) hue-rotate(225deg) brightness(95%) contrast(102%);
 }
 
 /* Classes específicas dos ícones (apenas para referência no HTML, sem estilos de posição) */
@@ -53,7 +58,7 @@
   position: absolute;
   width: 64px;
   height: 64px;
-  background-color: #9cc9fc; /* Azul claro (var(--color-lightskyblue)) */
+  background-color: #E6EAF1; /* Azul claro (var(--color-lightskyblue)) */
   border-radius: 16px;       /* Bordas arredondadas (var(--br-16)) */
   z-index: 5; /* Fica atrás dos ícones */
 

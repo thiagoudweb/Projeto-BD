@@ -6,4 +6,10 @@ export interface Pedido {
   precoFinal: number;
   modoEncomenda: string;
   status: string;
+  produtos?: number[]; // Array de IDs dos produtos relacionados ao pedido
+}
+
+export interface PedidoProduto {
+  idProduto: number;
+  quantidade: number;
 }

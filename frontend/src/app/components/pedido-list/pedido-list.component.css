@@ -349,6 +349,78 @@
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .error-message { color: #ef4444; margin-top: 16px; text-align: center; }
 
+/* --- ESTILOS PARA SEÇÃO DE PRODUTOS --- */
+.form-section {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 16px;
+  background-color: #EDEFF4;
+}
+
+.form-section h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-section h5 {
+  margin: 15px 0 10px 0;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-add-produto {
+  background-color: #165CF9;
+  color: white;
+  border: none;
+  padding: 14px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.btn-add-produto:hover {
+  background-color: #004486;
+}
+
+.produtos-lista {
+  margin-top: 15px;
+}
+
+.produto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  background-color: #F6FAFF;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.produto-item span {
+  flex: 1;
+  font-size: 14px;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}
+
 /* ... (O restante do CSS para formulário e estados continua igual, mas com cores adaptadas caso necessário) ... */
 
 
