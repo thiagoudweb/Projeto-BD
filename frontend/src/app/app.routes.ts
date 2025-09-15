@@ -51,6 +51,20 @@ export const routes: Routes = [
         (m) => m.FornecedorDetailsComponent
       ),
   },
+  {
+    path: 'armazens',
+    loadComponent: () =>
+      import('./components/armazem-list/armazem-list.component').then(
+        (m) => m.ArmazemListComponent
+      ),
+  },
+  {
+    path: 'categorias',
+    loadComponent: () =>
+      import('./components/categoria-list/categoria-list.component').then(
+        (m) => m.CategoriaListComponent
+      ),
+  },
   // Placeholder routes for navbar navigation - you can replace these with actual components
   { path: 'enderecos', redirectTo: 'clientes' }, // Replace with actual endereco component when created
   { path: 'entregadoras', redirectTo: 'clientes' }, // Replace with actual entregadora component when created

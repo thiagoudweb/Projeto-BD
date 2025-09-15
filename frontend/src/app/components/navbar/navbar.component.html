@@ -58,4 +58,17 @@
        alt="Estoque"
        src="assets/icons/estoque.svg"
        (click)="navigateToEstoque()">
+
+  <!-- Armazéns -->
+  <img class="iconamoonwarehouse-fill nav-icon"
+       [class.active]="isActive('/armazens')"
+       alt="Armazéns"
+       src="assets/icons/armazens.svg"
+       (click)="navigateToArmazens()">
+
+  <img class="iconamoonwarehouse-fill nav-icon"
+       [class.active]="isActive('/categorias')"
+       alt="Categorias"
+       src="assets/icons/categoria.svg"
+       (click)="navigateToCategorias()">
 </div>

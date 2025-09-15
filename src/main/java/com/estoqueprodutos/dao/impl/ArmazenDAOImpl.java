@@ -13,7 +13,9 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.estoqueprodutos.dao.interfaces.IArmazenDAO;
 import com.estoqueprodutos.model.Armazen;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ArmazenDAOImpl implements IArmazenDAO{
     
     private final JdbcTemplate jdbcTemplate;

@@ -47,7 +47,8 @@
 .vector-icon,
 .fluentbox-48-filled-icon,
 .icon-park-solidlocal-two,
-.iconamoondelivery-fill {
+.iconamoondelivery-fill,
+.iconamoonwarehouse-fill{
   /* Não precisam mais de position, top, left, etc. */
   object-fit: contain; /* Garante que os ícones não distorçam */
 }

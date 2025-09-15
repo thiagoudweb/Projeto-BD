@@ -54,3 +54,4 @@ public class ArmazenController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
+
