@@ -10,6 +10,7 @@ import com.estoqueprodutos.dao.interfaces.IArmazenDAO;
 import com.estoqueprodutos.model.Armazen;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 public class ArmazenService {
     private final IArmazenDAO armazenDAO;
