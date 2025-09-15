@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -39,6 +41,25 @@ public class Pedido {
     @JoinColumn(name = "id_cliente", nullable = false)
     @JsonIgnore
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "idPedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<PedidosProduto> produtos = new ArrayList<>();
+
+    // Lista transitória para IDs dos produtos (não persistida no banco)
+    @Transient
+    private List<Integer> idsProdutos = new ArrayList<>();
+
+    // Propriedade virtual para serialização JSON - envia apenas os IDs dos produtos
+    @JsonProperty("produtos")
+    public List<Integer> getIdsProdutos() {
+        return idsProdutos;
+    }
+
+    @JsonProperty("produtos")
+    public void setIdsProdutos(List<Integer> idsProdutos) {
+        this.idsProdutos = idsProdutos != null ? idsProdutos : new ArrayList<>();
+    }
 
     // Propriedade virtual para serialização JSON - envia apenas o ID do cliente
     @JsonProperty("idCliente")

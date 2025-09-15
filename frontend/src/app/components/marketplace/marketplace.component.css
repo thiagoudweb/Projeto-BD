@@ -11,7 +11,7 @@
 
 .marketplace-inner {
   position: absolute;
-  top: 74px;
+  top: 64px;
   left: 164px;
   width: 1556px;
   display: flex;
@@ -31,7 +31,7 @@
 .marketplace2 {
   position: relative;
   letter-spacing: -0.02em;
-  font-size: 64px;
+  font-size: 72px;
 }
 
 /* Botão carrinho */
@@ -65,7 +65,7 @@
 /* Barra de busca */
 .icon-parent {
   position: absolute;
-  top: 166px;
+  top: 156px;
   left: 163px;
   border-radius: 46px;
   border: 1px solid var(--color-lightslategray);
@@ -88,7 +88,7 @@
 /* Grid wrapper */
 .frame-parent {
   position: absolute;
-  top: 239px;
+  top: 229px;
   left: 164px;
   width: 1556px;
   display: flex;

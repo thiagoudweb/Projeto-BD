@@ -13,42 +13,49 @@
 
   <!-- Home -->
   <img class="material-symbolshome-rounded-icon nav-icon"
+       [class.active]="isActive('/') || isActive('/marketplace')"
        alt="Home"
        src="assets/icons/home.svg"
        (click)="navigateToHome()">
 
   <!-- Clientes -->
   <img class="mdiuser-icon nav-icon"
+       [class.active]="isActive('/clientes')"
        src="assets/icons/cliente.svg"
        (click)="navigateToClientes()">
 
   <!-- Pedidos -->
   <img class="lets-iconsorder-fill nav-icon"
+       [class.active]="isActive('/pedidos-produtos')"
        alt="Pedidos"
        src="assets/icons/pedido.svg"
        (click)="navigateToPedidos()">
 
   <!-- Produtos -->
   <img class="vector-icon nav-icon"
+       [class.active]="isActive('/produtos')"
        alt="Produtos"
        src="assets/icons/produto.svg"
        (click)="navigateToProdutos()">
 
-  <!-- Estoque -->
+  <!-- Fornecedores -->
   <img class="fluentbox-48-filled-icon nav-icon"
+       [class.active]="isActive('/fornecedores')"
        alt="Fornecedores"
        src="assets/icons/fornecedor.svg"
        (click)="navigateToFornecedores()">
 
-  <!-- Endereços -->
+  <!-- Fornecedores-Produtos -->
   <img class="icon-park-solidlocal-two nav-icon"
+       [class.active]="isActive('/fornecedor-details')"
        alt="Fornecedores-Produtos"
        src="assets/icons/produtos-fornecedores.svg"
        (click)="navigateToFornecedorDetails()">
 
-  <!-- Entregadoras -->
+  <!-- Estoque -->
   <img class="iconamoondelivery-fill nav-icon"
-       alt="Entregadoras"
-       src="assets/icons/entregadora.svg"
-       (click)="navigateToEntregadoras()">
+       [class.active]="isActive('/estoque')"
+       alt="Estoque"
+       src="assets/icons/estoque.svg"
+       (click)="navigateToEstoque()">
 </div>
