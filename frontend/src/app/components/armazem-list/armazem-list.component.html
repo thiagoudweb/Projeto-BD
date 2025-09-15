@@ -1,0 +1,80 @@
+<div class="desktop-3">
+  <div class="frame-group">
+    <div class="clientes-parent">
+      <div class="clientes2">Armazéns</div>
+      <div class="buttonprimary" (click)="showCreateForm()">
+        <div class="buttoncontent">
+          <div class="left-icon">+</div>
+          <div class="label">adicionar armazém</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <div class="form-header">
+          <h3>{{ editingArmazem ? 'Editar Armazém' : 'Novo Armazém' }}</h3>
+          <button class="close-btn" (click)="cancelForm()">×</button>
+        </div>
+        <form (ngSubmit)="onSubmit()" #armazemForm="ngForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome *</label>
+              <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required placeholder="Nome do armazém">
+            </div>
+          </div>
+
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancelForm()">Cancelar</button>
+            <button type="submit" class="btn-submit" [disabled]="!armazemForm.valid">
+              {{ editingArmazem ? 'Atualizar Armazém' : 'Criar Armazém' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="frame-container">
+      <div class="search-bar" role="search">
+        <img alt="Pesquisar" src="assets/icons/search.svg" />
+        <input type="text" placeholder="Pesquisar armazéns..." />
+      </div>
+      <div class="table-wrapper">
+        <div class="id-parent">
+          <div class="id">ID</div>
+          <div class="nome">Nome</div>
+          <div class="acoes">Ações</div>
+        </div>
+
+        <div *ngIf="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Carregando armazéns...</p>
+        </div>
+
+        <div *ngIf="error && !loading" class="error-state">
+          <p>{{ error }}</p>
+          <button (click)="fetchArmazens()" class="retry-btn">Tentar novamente</button>
+        </div>
+
+        <div *ngIf="!loading && !error && armazens.length === 0" class="empty-state">
+          <p>Nenhum armazém encontrado</p>
+          <button (click)="showCreateForm()" class="btn-create">Criar primeiro armazém</button>
+        </div>
+
+        <ng-container *ngFor="let armazem of armazens; let i = index; trackBy: trackByIndex">
+          <div class="nome-teste-parent">
+            <div class="div2" data-label="ID">{{ armazem.id }}</div>
+            <div class="nome-teste" data-label="Nome">{{ armazem.nome }}</div>
+            <div class="mdiedit-parent" data-label="Ações">
+              <img class="mdiedit-icon" src="assets/icons/edit.svg" alt="Editar" (click)="editArmazem(armazem)" title="Editar armazém">
+              <img class="mdiedit-icon" src="assets/icons/delete.svg" alt="Deletar" (click)="deleteArmazem(armazem)" title="Deletar armazém">
+            </div>
+          </div>
+          <div class="frame-child" *ngIf="i < armazens.length - 1"></div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

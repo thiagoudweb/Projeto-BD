@@ -63,6 +63,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/fornecedor-details']);
   }
 
+  navigateToArmazens() {
+    this.router.navigate(['/armazens']);
+  }
+
+  navigateToCategorias() {
+    this.router.navigate(['/categorias']);
+  }
+
   isActive(route: string): boolean {
     return this.currentRoute === route;
   }
@@ -79,6 +87,8 @@ export class NavbarComponent implements OnInit {
       '/fornecedores': 4,
       '/fornecedor-details': 5,
       '/estoque': 6,
+      '/armazens': 7,
+      '/categorias': 8,
     };
 
     // Pega a rota base, como no seu código original
@@ -103,3 +113,9 @@ export class NavbarComponent implements OnInit {
     return topPosition;
   }
 }
+
+
+
+
+
+
