@@ -1,0 +1,11 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.navbar {
+  width: 98px; /* Fixed width for navbar */
+  width: 95px; /* Matching navbar width */
+}
+

@@ -1,0 +1,157 @@
+<div class="desktop-3">
+  <div class="frame-group">
+    <div class="clientes-parent">
+      <div class="clientes2">Pedidos</div>
+      <div class="buttonprimary" (click)="showCreateForm()">
+        <div class="buttoncontent">
+          <div class="left-icon">+</div>
+          <div class="label">adicionar pedido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <div class="form-header">
+          <h3>{{ editingPedido ? 'Editar Pedido' : 'Novo Pedido' }}</h3>
+          <button class="close-btn" (click)="showForm = false">×</button>
+        </div>
+
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="idCliente">ID do Cliente *</label>
+              <input type="number" id="idCliente" [(ngModel)]="formData.idCliente" name="idCliente" required placeholder="Digite o ID do cliente">
+            </div>
+            <div class="form-group">
+              <label for="precoFinal">Preço Final *</label>
+              <input type="number" step="0.01" id="precoFinal" [(ngModel)]="formData.precoFinal" name="precoFinal" required placeholder="0.00">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prazoEntrega">Prazo de Entrega</label>
+              <input type="date" id="prazoEntrega" [(ngModel)]="formData.prazoEntrega" name="prazoEntrega">
+            </div>
+            <div class="form-group">
+              <label for="modoEncomenda">Modo de Encomenda</label>
+              <select id="modoEncomenda" [(ngModel)]="formData.modoEncomenda" name="modoEncomenda">
+                <option value="">Selecione...</option>
+                <option value="ONLINE">Online</option>
+                <option value="PRESENCIAL">Presencial</option>
+                <option value="TELEFONE">Telefone</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" [(ngModel)]="formData.status" name="status">
+                <option value="">Selecione...</option>
+                <option value="PENDENTE">Pendente</option>
+                <option value="PROCESSANDO">Processando</option>
+                <option value="ENVIADO">Enviado</option>
+                <option value="ENTREGUE">Entregue</option>
+                <option value="CANCELADO">Cancelado</option>
+              </select>
+            </div>
+            <div class="form-group"></div>
+          </div>
+
+          <!-- Seção de Produtos -->
+          <div class="form-section">
+            <h4>Produtos do Pedido</h4>
+
+            <!-- Adicionar novo produto -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="idProduto">ID do Produto</label>
+                <input type="number" id="idProduto" [(ngModel)]="novoProduto.idProduto" name="idProduto" placeholder="Digite o ID do produto">
+              </div>
+              <div class="form-group">
+                <label for="quantidade">Quantidade</label>
+                <input type="number" id="quantidade" [(ngModel)]="novoProduto.quantidade" name="quantidade" min="1" placeholder="1">
+              </div>
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="button" class="btn-add-produto" (click)="adicionarProduto()">Adicionar Produto</button>
+              </div>
+            </div>
+
+            <!-- Lista de produtos adicionados -->
+            <div *ngIf="formData.produtos.length > 0" class="produtos-lista">
+              <h5>Produtos Adicionados:</h5>
+              <div class="produto-item" *ngFor="let produto of formData.produtos; let i = index">
+                <span>Produto ID: {{produto.idProduto}} - Quantidade: {{produto.quantidade}}</span>
+                <button type="button" class="btn-remove" (click)="removerProduto(i)">Remover</button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="showForm = false">Cancelar</button>
+            <button type="submit" class="btn-submit">
+              {{ editingPedido ? 'Atualizar' : 'Criar' }} Pedido
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="frame-container">
+      <div class="search-bar" role="search" aria-label="Pesquisar produtos">
+        <img alt="Pesquisar" src="assets/icons/search.svg" />
+        <input type="text" placeholder="Pesquisar pedidos..." />
+      </div>
+      <div class="table-wrapper">
+        <div class="id-parent">
+          <div class="id">ID</div>
+          <div class="nome">Cliente ID</div>
+          <div class="emails">Data Pedido</div>
+          <div class="telefones">Prazo Entrega</div>
+          <div class="limite-credito">Preço Final</div>
+          <div class="data-cadastro">Modo</div>
+          <div class="status-header">Status</div>
+          <div class="acoes">Ações</div>
+        </div>
+
+        <div *ngIf="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Carregando pedidos...</p>
+        </div>
+
+        <div *ngIf="error && !loading" class="error-state">
+          <p>{{ error }}</p>
+          <button (click)="fetchPedidos()" class="retry-btn">Tentar novamente</button>
+        </div>
+
+        <div *ngIf="!loading && !error && pedidos.length === 0" class="empty-state">
+          <p>Nenhum pedido encontrado</p>
+          <button (click)="showCreateForm()" class="btn-create">Criar primeiro pedido</button>
+        </div>
+
+        <div *ngFor="let pedido of pedidos; let i = index">
+          <div class="nome-teste-parent">
+            <div class="div2">{{ pedido.idPedido }}</div>
+            <div class="nome-teste" [title]="'ID: ' + pedido.idCliente">
+              {{ getClienteNome(pedido.idCliente) }}
+            </div>
+            <div class="emailtestegmailcom">{{ pedido.dataPedido | date:'dd/MM/yyyy' }}</div>
+            <div class="div3">{{ pedido.prazoEntrega | date:'dd/MM/yyyy' }}</div>
+            <div class="div5">R$ {{ pedido.precoFinal?.toFixed(2) || '0.00' }}</div>
+            <div class="div4">{{ pedido.modoEncomenda || 'N/A' }}</div>
+            <div class="status-cell" [ngClass]="'status-' + (pedido.status?.toLowerCase() || 'unknown')">
+              {{ pedido.status || 'N/A' }}
+            </div>
+            <div class="mdiedit-parent">
+              <img class="mdiedit-icon" src="assets/icons/edit.svg" alt="Editar" (click)="editPedido(pedido)" title="Editar pedido">
+              <img class="mdiedit-icon" src="assets/icons/delete.svg" alt="Deletar" (click)="deletePedido(pedido)" title="Deletar pedido">
+            </div>
+          </div>
+          <div class="frame-child" *ngIf="i < pedidos.length - 1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

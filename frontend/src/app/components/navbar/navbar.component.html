@@ -1,0 +1,74 @@
+<div class="sidebar-contracted">
+  <!-- Hidden blue shape (keeping from original design) -->
+  <div class="sidebar-contracted-child">
+  </div>
+
+  <!-- Yellow indicator shape for active route -->
+  <div class="sidebar-contracted-item"
+       [ngStyle]="{
+         'top': getActiveIndicatorPosition() + 'px',
+         'display': getActiveIndicatorPosition() !== -1 ? 'block' : 'none'
+       }">
+  </div>
+
+  <!-- Home -->
+  <img class="material-symbolshome-rounded-icon nav-icon"
+       [class.active]="isActive('/') || isActive('/marketplace')"
+       alt="Home"
+       src="assets/icons/home.svg"
+       (click)="navigateToHome()">
+
+  <!-- Clientes -->
+  <img class="mdiuser-icon nav-icon"
+       [class.active]="isActive('/clientes')"
+       src="assets/icons/cliente.svg"
+       (click)="navigateToClientes()">
+
+  <!-- Pedidos -->
+  <img class="lets-iconsorder-fill nav-icon"
+       [class.active]="isActive('/pedidos-produtos')"
+       alt="Pedidos"
+       src="assets/icons/pedido.svg"
+       (click)="navigateToPedidos()">
+
+  <!-- Produtos -->
+  <img class="vector-icon nav-icon"
+       [class.active]="isActive('/produtos')"
+       alt="Produtos"
+       src="assets/icons/produto.svg"
+       (click)="navigateToProdutos()">
+
+  <!-- Fornecedores -->
+  <img class="fluentbox-48-filled-icon nav-icon"
+       [class.active]="isActive('/fornecedores')"
+       alt="Fornecedores"
+       src="assets/icons/fornecedor.svg"
+       (click)="navigateToFornecedores()">
+
+  <!-- Fornecedores-Produtos -->
+  <img class="icon-park-solidlocal-two nav-icon"
+       [class.active]="isActive('/fornecedor-details')"
+       alt="Fornecedores-Produtos"
+       src="assets/icons/produtos-fornecedores.svg"
+       (click)="navigateToFornecedorDetails()">
+
+  <!-- Estoque -->
+  <img class="iconamoondelivery-fill nav-icon"
+       [class.active]="isActive('/estoque')"
+       alt="Estoque"
+       src="assets/icons/estoque.svg"
+       (click)="navigateToEstoque()">
+
+  <!-- Armazéns -->
+  <img class="iconamoonwarehouse-fill nav-icon"
+       [class.active]="isActive('/armazens')"
+       alt="Armazéns"
+       src="assets/icons/armazens.svg"
+       (click)="navigateToArmazens()">
+
+  <img class="iconamoonwarehouse-fill nav-icon"
+       [class.active]="isActive('/categorias')"
+       alt="Categorias"
+       src="assets/icons/categoria.svg"
+       (click)="navigateToCategorias()">
+</div>

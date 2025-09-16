@@ -1,0 +1,96 @@
+<div class="desktop-3">
+  <div class="frame-group">
+    <div class="clientes-parent">
+      <div class="clientes2">Estoques</div>
+      <button type="button" class="buttonprimary" (click)="showCreateForm()">
+        <div class="buttoncontent">
+          <div class="left-icon">+</div>
+          <div class="label">adicionar estoque</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <div class="form-header">
+          <h3>{{ editingEstoque ? 'Editar Estoque' : 'Novo Estoque' }}</h3>
+          <button class="close-btn" (click)="showForm = false">×</button>
+        </div>
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="idProduto">ID do Produto *</label>
+              <input type="number" id="idProduto" [(ngModel)]="formData.idProduto" name="idProduto" required placeholder="Digite o ID do produto">
+            </div>
+            <div class="form-group">
+              <label for="idArmazem">ID do Armazém *</label>
+              <input type="number" id="idArmazem" [(ngModel)]="formData.idArmazem" name="idArmazem" required placeholder="Digite o ID do armazém">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="codigo">Código</label>
+              <input type="text" id="codigo" [(ngModel)]="formData.codigo" name="codigo" placeholder="Digite o código do estoque">
+            </div>
+            <div class="form-group">
+              <label for="quantidadeExistente">Quantidade Existente *</label>
+              <input type="number" id="quantidadeExistente" [(ngModel)]="formData.quantidadeExistente" name="quantidadeExistente" required min="0" placeholder="Digite a quantidade">
+            </div>
+          </div>
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="showForm = false">Cancelar</button>
+            <button type="submit" class="btn-submit">
+              {{ editingEstoque ? 'Atualizar' : 'Criar' }} Estoque
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="frame-container">
+      <div class="search-bar" role="search">
+        <img alt="Pesquisar" src="assets/icons/search.svg" />
+        <input type="text" placeholder="Pesquisar estoques..." />
+      </div>
+
+      <div class="table-wrapper">
+        <div class="id-parent">
+          <div class="id">ID</div>
+          <div class="nome-traduzido">ID Produto</div>
+          <div class="descricao-traduzida">ID Armazém</div>
+          <div class="data-garantia">Código</div>
+          <div class="preo-venda">Quantidade</div>
+          <div class="aes">Ações</div>
+        </div>
+
+        <div *ngIf="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Carregando estoques...</p>
+        </div>
+        <div *ngIf="error && !loading" class="error-state">
+          <p>{{ error }}</p>
+          <button (click)="carregarEstoques()" class="retry-btn">Tentar novamente</button>
+        </div>
+        <div *ngIf="!loading && !error && (!estoques || estoques.length === 0)" class="empty-state">
+          <p>Nenhum estoque encontrado</p>
+          <button (click)="showCreateForm()" class="btn-create">Criar primeiro estoque</button>
+        </div>
+
+        <ng-container *ngFor="let estoque of estoques; let i = index">
+          <div class="nome-teste-parent">
+            <div data-label="ID">{{ estoque.id }}</div>
+            <div data-label="ID Produto">{{ estoque.idProduto }}</div>
+            <div data-label="ID Armazém">{{ estoque.idArmazem }}</div>
+            <div data-label="Código">{{ estoque.codigo || 'N/A' }}</div>
+            <div data-label="Quantidade">{{ estoque.quantidadeExistente }}</div>
+            <div class="mdiedit-parent" data-label="Ações">
+              <img class="mdiedit-icon" alt="Editar" src="assets/icons/edit.svg" (click)="editEstoque(estoque)" />
+              <img class="mdiedit-icon" alt="Excluir" src="assets/icons/delete.svg" (click)="deleteEstoque(estoque)" />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

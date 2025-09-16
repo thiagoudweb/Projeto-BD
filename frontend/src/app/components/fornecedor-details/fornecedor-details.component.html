@@ -1,0 +1,177 @@
+<div class="fornecedor-details-container">
+  <div class="frame-group">
+    <div class="header">
+      <h2>Fornecedor e Produtos</h2>
+    </div>
+
+    <!-- Seção de busca do fornecedor -->
+    <div class="search-section">
+      <div class="search-form">
+        <label for="fornecedorId">ID do Fornecedor:</label>
+        <input
+          type="text"
+          id="fornecedorId"
+          [(ngModel)]="fornecedorId"
+          placeholder="Digite o ID do fornecedor"
+        >
+        <button
+          (click)="buscarFornecedor()"
+          [disabled]="carregandoFornecedor"
+          class="btn btn-primary"
+        >
+          <ng-container *ngIf="!carregandoFornecedor">
+            <img src="assets/icons/search.svg" alt="Ícone de busca"/>
+          </ng-container>
+          {{ carregandoFornecedor ? 'Buscando...' : 'Buscar' }}
+        </button>
+        <button
+          (click)="limparBusca()"
+          class="btn btn-secondary"
+          *ngIf="fornecedor"
+        >
+          Limpar
+        </button>
+      </div>
+
+      <div class="error-message" *ngIf="erroFornecedor">
+        {{ erroFornecedor }}
+      </div>
+    </div>
+
+    <!-- Informações do fornecedor -->
+    <div class="fornecedor-info" *ngIf="fornecedor">
+      <h3>Informações do Fornecedor</h3>
+      <div class="info-card">
+        <div class="info-row">
+          <strong>ID:</strong> {{ fornecedor.id }}
+        </div>
+        <div class="info-row">
+          <strong>Nome:</strong> {{ fornecedor.nome }}
+        </div>
+        <div class="info-row">
+          <strong>Tipo:</strong> {{ fornecedor.tipo === 'F' ? 'Pessoa Física' : 'Pessoa Jurídica' }}
+        </div>
+        <div class="info-row" *ngIf="fornecedor.cpf">
+          <strong>CPF:</strong> {{ fornecedor.cpf }}
+        </div>
+        <div class="info-row" *ngIf="fornecedor.cnpj">
+          <strong>CNPJ:</strong> {{ fornecedor.cnpj }}
+        </div>
+        <div class="info-row">
+          <strong>País:</strong> {{ fornecedor.pais }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de produtos do fornecedor -->
+    <div class="produtos-section" *ngIf="fornecedor">
+      <div class="produtos-header">
+        <h3>Produtos do Fornecedor</h3>
+        <button
+          (click)="abrirModalAdicionarProduto()"
+          class="btn btn-success"
+        >
+          + Adicionar Produto
+        </button>
+      </div>
+
+      <div class="loading" *ngIf="carregandoProdutos">
+        Carregando produtos...
+      </div>
+
+      <div class="error-message" *ngIf="erroProdutos">
+        {{ erroProdutos }}
+      </div>
+
+      <!-- Tabela de produtos -->
+      <div class="produtos-table" *ngIf="!carregandoProdutos && !erroProdutos">
+        <div *ngIf="produtosFornecedor.length > 0; else noProdutos">
+          <!-- Cabeçalho da tabela -->
+          <div class="table-header">
+            <div class="table-cell">ID</div>
+            <div class="table-cell">Nome</div>
+            <div class="table-cell">Preço</div>
+            <div class="table-cell">Status</div>
+            <div class="table-cell">Data Garantia</div>
+            <div class="table-cell">Ações</div>
+          </div>
+
+          <!-- Linhas da tabela -->
+          <div class="table-row" *ngFor="let produto of produtosFornecedor">
+            <div class="table-cell">{{ produto.produtoId }}</div>
+            <div class="table-cell">{{ produto.nomeProduto || 'Nome não disponível' }}</div>
+            <div class="table-cell">{{ produto.precoProduto | currency:'BRL':'symbol':'1.2-2' }}</div>
+            <div class="table-cell">
+              <span class="status-badge" [class]="produto.status?.toLowerCase()">
+                {{ produto.status || 'N/A' }}
+              </span>
+            </div>
+            <div class="table-cell">{{ produto.dataGarantia || 'N/A' }}</div>
+            <div class="table-cell">
+              <button
+                (click)="removerProduto(produto.produtoId)"
+                class="btn btn-danger btn-small"
+                title="Remover produto"
+              >
+                Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noProdutos>
+          <div class="no-products">
+            <p>Nenhum produto encontrado para este fornecedor.</p>
+            <p>Clique em "Adicionar Produto" para associar produtos.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Modal para adicionar produto -->
+    <div class="modal-overlay" *ngIf="mostrarModal" (click)="fecharModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h4>Adicionar Produto ao Fornecedor</h4>
+          <button class="close-btn" (click)="fecharModal()">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <label for="produtoSelect">Selecione um produto:</label>
+          <select
+            id="produtoSelect"
+            [(ngModel)]="produtoSelecionado"
+            class="form-select"
+          >
+            <option value="0">Selecione um produto...</option>
+            <option
+              *ngFor="let produto of todosOsProdutos"
+              [value]="produto.idProduto"
+              [disabled]="produtoJaAssociado(produto.idProduto!)"
+            >
+              {{ obterNomeProduto(produto) }}
+              {{ produtoJaAssociado(produto.idProduto!) ? '(Já associado)' : '' }}
+            </option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            (click)="fecharModal()"
+            class="btn btn-secondary"
+            [disabled]="carregandoModal"
+          >
+            Cancelar
+          </button>
+          <button
+            (click)="adicionarProduto()"
+            class="btn btn-primary"
+            [disabled]="carregandoModal || produtoSelecionado <= 0"
+          >
+            {{ carregandoModal ? 'Adicionando...' : 'Adicionar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

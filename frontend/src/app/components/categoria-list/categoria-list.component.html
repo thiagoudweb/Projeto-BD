@@ -1,0 +1,84 @@
+<div class="desktop-3">
+  <div class="frame-group">
+    <div class="clientes-parent">
+      <div class="clientes2">Categorias</div>
+      <button type="button" class="buttonprimary" (click)="showCreateForm()">
+        <div class="buttoncontent">
+          <div class="left-icon">+</div>
+          <div class="label">adicionar categoria</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <div class="form-header">
+          <h3>{{ editingCategoria ? 'Editar Categoria' : 'Nova Categoria' }}</h3>
+          <button class="close-btn" (click)="showForm = false">×</button>
+        </div>
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome *</label>
+              <input type="text" id="nome" [(ngModel)]="formData.nome" name="nome" required placeholder="Digite o nome da categoria">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="descricao">Descrição</label>
+              <textarea id="descricao" [(ngModel)]="formData.descricao" name="descricao" rows="4" placeholder="Digite a descrição da categoria"></textarea>
+            </div>
+          </div>
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="showForm = false">Cancelar</button>
+            <button type="submit" class="btn-submit">
+              {{ editingCategoria ? 'Atualizar' : 'Criar' }} Categoria
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="frame-container">
+      <div class="search-bar" role="search">
+        <img alt="Pesquisar" src="assets/icons/search.svg" />
+        <input type="text" placeholder="Pesquisar categorias..." />
+      </div>
+
+      <div class="table-wrapper">
+        <div class="id-parent">
+          <div class="id">ID</div>
+          <div class="nome-traduzido">Nome</div>
+          <div class="descricao-traduzida">Descrição</div>
+          <div class="aes">Ações</div>
+        </div>
+
+        <div *ngIf="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Carregando categorias...</p>
+        </div>
+        <div *ngIf="error && !loading" class="error-state">
+          <p>{{ error }}</p>
+          <button (click)="carregarCategorias()" class="retry-btn">Tentar novamente</button>
+        </div>
+        <div *ngIf="!loading && !error && (!categorias || categorias.length === 0)" class="empty-state">
+          <p>Nenhuma categoria encontrada</p>
+          <button (click)="showCreateForm()" class="btn-create">Criar primeira categoria</button>
+        </div>
+
+        <ng-container *ngFor="let categoria of categorias; let i = index">
+          <div class="nome-teste-parent">
+            <div data-label="ID">{{ categoria.id }}</div>
+            <div data-label="Nome">{{ categoria.nome }}</div>
+            <div data-label="Descrição">{{ categoria.descricao || 'N/A' }}</div>
+            <div class="mdiedit-parent" data-label="Ações">
+              <img class="mdiedit-icon" alt="Editar" src="assets/icons/edit.svg" (click)="editCategoria(categoria)" />
+              <img class="mdiedit-icon" alt="Excluir" src="assets/icons/delete.svg" (click)="deleteCategoria(categoria)" />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

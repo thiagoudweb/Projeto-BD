@@ -1,0 +1,110 @@
+<div class="desktop-3">
+  <div class="frame-group">
+    <div class="clientes-parent">
+      <div class="clientes2">Clientes</div>
+      <div class="buttonprimary" (click)="showCreateForm()">
+        <div class="buttoncontent">
+          <div class="left-icon">+</div>
+          <div class="label">adicionar cliente</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-overlay" *ngIf="showForm">
+      <div class="form-container">
+        <div class="form-header">
+          <h3>{{ editingCliente ? 'Editar Cliente' : 'Novo Cliente' }}</h3>
+          <button class="close-btn" (click)="cancelForm()">×</button>
+        </div>
+        <form (ngSubmit)="onSubmit()" #clienteForm="ngForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome *</label>
+              <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required placeholder="Nome completo do cliente">
+            </div>
+            <div class="form-group">
+              <label for="limiteCredito">Limite de Crédito</label>
+              <input type="number" id="limiteCredito" name="limiteCredito" [(ngModel)]="formData.limiteCredito" step="0.01" min="0" placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Emails</label>
+            <div *ngFor="let email of formData.emails; let i = index; trackBy: trackByIndex" class="dynamic-row">
+              <input type="email" [(ngModel)]="formData.emails[i]" [name]="'email_' + i" placeholder="email@exemplo.com">
+              <button type="button" class="btn-remove" (click)="removeEmail(i)" *ngIf="formData.emails.length > 1" title="Remover Email">×</button>
+            </div>
+            <button type="button" class="btn-add" (click)="addEmail()">Adicionar Outro Email</button>
+          </div>
+
+          <div class="form-group">
+            <label>Telefones</label>
+            <div *ngFor="let telefone of formData.telefones; let i = index; trackBy: trackByIndex" class="dynamic-row">
+              <input type="tel" [(ngModel)]="formData.telefones[i]" [name]="'telefone_' + i" placeholder="(11) 99999-9999">
+              <button type="button" class="btn-remove" (click)="removeTelefone(i)" *ngIf="formData.telefones.length > 1" title="Remover Telefone">×</button>
+            </div>
+            <button type="button" class="btn-add" (click)="addTelefone()">Adicionar Outro Telefone</button>
+          </div>
+
+          <div *ngIf="error" class="error-message">{{ error }}</div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancelForm()">Cancelar</button>
+            <button type="submit" class="btn-submit" [disabled]="!clienteForm.valid">
+              {{ editingCliente ? 'Atualizar Cliente' : 'Criar Cliente' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="frame-container">
+      <div class="search-bar" role="search">
+        <img alt="Pesquisar" src="assets/icons/search.svg" />
+        <input type="text" placeholder="Pesquisar clientes..." />
+      </div>
+      <div class="table-wrapper">
+        <div class="id-parent">
+          <div class="id">ID</div>
+          <div class="nome">Nome</div>
+          <div class="emails">Emails</div>
+          <div class="telefones">Telefones</div>
+          <div class="limite-credito">Limite Crédito</div>
+          <div class="data-cadastro">Data Cadastro</div>
+          <div class="acoes">Ações</div>
+        </div>
+
+        <div *ngIf="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Carregando clientes...</p>
+        </div>
+
+        <div *ngIf="error && !loading" class="error-state">
+          <p>{{ error }}</p>
+          <button (click)="fetchClientes()" class="retry-btn">Tentar novamente</button>
+        </div>
+
+        <div *ngIf="!loading && !error && clientes.length === 0" class="empty-state">
+          <p>Nenhum cliente encontrado</p>
+          <button (click)="showCreateForm()" class="btn-create">Criar primeiro cliente</button>
+        </div>
+
+        <ng-container *ngFor="let c of clientes; let i = index; trackBy: trackById">
+          <div class="nome-teste-parent">
+            <div class="div2" data-label="ID">{{ c.idCliente }}</div>
+            <div class="nome-teste" data-label="Nome">{{ c.nome }}</div>
+            <div class="emailtestegmailcom" data-label="Emails">{{ c.emails?.join(', ') || '-' }}</div>
+            <div class="div3" data-label="Telefones">{{ c.telefones?.join(', ') || '-' }}</div>
+            <div class="div5" data-label="Limite Crédito">R$ {{ c.limiteCredito?.toFixed(2) || '0.00' }}</div>
+            <div class="div4" data-label="Data Cadastro">{{ c.dataCadastro | date:'dd/MM/yyyy' }}</div>
+            <div class="mdiedit-parent" data-label="Ações">
+              <img class="mdiedit-icon" src="assets/icons/edit.svg" alt="Editar" (click)="editCliente(c)" title="Editar cliente">
+              <img class="mdiedit-icon" src="assets/icons/delete.svg" alt="Deletar" (click)="deleteCliente(c)" title="Deletar cliente">
+            </div>
+          </div>
+          <div class="frame-child" *ngIf="i < clientes.length - 1"></div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
